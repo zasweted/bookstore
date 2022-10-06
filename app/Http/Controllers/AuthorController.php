@@ -42,12 +42,12 @@ class AuthorController extends Controller
 
         // $faker = \Faker\Factory::create(1);
 
-        Log::info('hollo');
-
+        
         $author = Author::create([
             'name' => $request->input('name')
         ]);
-
+        
+        Log::info($author->name . ' ' . 'sekmingai sukurtas');
         return new AuthorResource($author);
     }
 
