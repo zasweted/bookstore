@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
@@ -15,7 +16,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return BookResource::collection(Book::all());
     }
 
     /**
@@ -34,9 +35,16 @@ class BookController extends Controller
      * @param  \App\Http\Requests\StoreBookRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBookRequest $request)
+    public function store(Request $request)
     {
-        //
+        $book = Book::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'publication_year' => $request->input('publication_year')
+        ]);
+        
+        Log::info('Vartuotojo' . ' "' . $book->name . '" ' . 'irasas sekmingai sukurtas');
+        return new BookResource($book);
     }
 
     /**
@@ -47,7 +55,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return new BookResource($book);
     }
 
     /**
@@ -68,9 +76,17 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBookRequest $request, Book $book)
+    public function update(Request $request, Book $book)
     {
-        //
+        $book = Book::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'publication_year' => $request->input('publication_year')
+        ]);
+
+        Log::info('Vartuotojo' . ' "' . $book->name . '" ' . 'irasas sekmingai pakoreguotas');
+
+        return new BookResource($book);
     }
 
     /**
@@ -81,6 +97,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        Log::info('Vartuotojo' . ' "' . $book->name . '" ' . 'irasas sekmingai istrintas');
+
+        return response(null, 204);
     }
 }

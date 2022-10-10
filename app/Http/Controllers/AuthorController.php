@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthorRequest;
 use App\Models\Author;
-use App\Http\Requests\StoreAuthorRequest;
-use App\Http\Requests\UpdateAuthorRequest;
 use App\Http\Resources\AuthorResource;
 use Illuminate\Support\Facades\Log;
 
@@ -47,7 +45,7 @@ class AuthorController extends Controller
             'name' => $request->input('name')
         ]);
         
-        Log::info($author->name . ' ' . 'sekmingai sukurtas');
+        Log::info('Vartuotojo' . ' "' . $author->name . '" ' . 'irasas sekmingai sukurtas');
         return new AuthorResource($author);
     }
 
@@ -86,6 +84,8 @@ class AuthorController extends Controller
             'name' => $request->input('name')
         ]);
 
+        Log::info('Vartuotojo' . ' "' . $author->name . '" ' . 'irasas sekmingai pakoreguotas');
+
         return new AuthorResource($author);
     }
 
@@ -98,6 +98,9 @@ class AuthorController extends Controller
     public function destroy(Author $author)
     {
         $author->delete();
+
+        Log::info('Vartuotojo' . ' "' . $author->name . '" ' . 'irasas sekmingai istrintas');
+
         return response(null, 204);
     }
 }
